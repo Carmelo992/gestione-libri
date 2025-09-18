@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:http/http.dart';
 
@@ -20,33 +19,9 @@ Future<void> main() async {
   var adminToken = responseBody["token"];
   var adminHeader = {"Authorization": "Bearer $adminToken"};
 
-  var clientResponse = await put(
-    Uri.parse('$webHost/clients'),
-    body: jsonEncode({"name": "Beeapp", "city": "Navacchio"}),
-    headers: adminHeader,
-  );
-  var response = jsonDecode(clientResponse.body);
-  // Add devices
-  var random = Random();
-  for (int i = 0; i < 10; i++) {
-    var addDevice = await put(
-      Uri.parse('$webHost/devices'),
-      body: jsonEncode({
-        "address": [
-          random.nextInt(256),
-          random.nextInt(256),
-          random.nextInt(256),
-          random.nextInt(256),
-          random.nextInt(256),
-          random.nextInt(256),
-        ].map((e) => e.toRadixString(16).padLeft(2, "0").toUpperCase()).join(":"),
-        "name": "ARCADIA-${(i + 1).toString().padLeft(3, "0")}",
-        "clientId": response["id"],
-      }),
-      headers: adminHeader,
-    );
-    responseBody = jsonDecode(addDevice.body);
-    print(responseBody);
-    arcadiaIds.add(responseBody["id"]);
-  }
+  await put(Uri.parse('$webHost/city'), body: jsonEncode({"name": "Pisa"}), headers: adminHeader);
+  await put(Uri.parse('$webHost/city'), body: jsonEncode({"name": "Scicli"}), headers: adminHeader);
+  await put(Uri.parse('$webHost/city'), body: jsonEncode({"name": "Navacchio"}), headers: adminHeader);
+  await put(Uri.parse('$webHost/city'), body: jsonEncode({"name": "Ragusa"}), headers: adminHeader);
+  await put(Uri.parse('$webHost/city'), body: jsonEncode({"name": "Modica"}), headers: adminHeader);
 }

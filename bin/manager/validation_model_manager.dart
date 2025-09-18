@@ -1,4 +1,4 @@
-import '../strings.dart';
+import '../core/strings.dart';
 
 class ValidationModelsManager {
   static ValidationError? validate(

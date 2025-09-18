@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 
-import '../logger.dart';
-import '../strings.dart';
+import '../core/core.dart';
 
 class MailManager {
   static const String API_KEY = String.fromEnvironment("MAILJET_API_KEY");
@@ -71,7 +70,8 @@ class MailManager {
     );
   }
 
-  static String _templateHtml(String title, String message, List<String> codes) => """
+  static String _templateHtml(String title, String message, List<String> codes) =>
+      """
   <!doctype html>
   <html lang="it-IT">
     <head>

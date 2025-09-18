@@ -1,9 +1,8 @@
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
-import 'package:shelf_static/shelf_static.dart';
 
+import '../../auth/adapters/auth_adapter.dart';
 import '../api_adapter/api_adapter.dart';
-import '../auth/auth_adapter.dart';
 import '../web_adapter/web_adapter.dart';
 
 part 'service_adapter.g.dart';

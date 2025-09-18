@@ -4,16 +4,12 @@ import 'dart:math';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-import '../../../database.dart';
-import '../../../logger.dart';
+import '../../../core/core.dart';
 import '../../../manager/mail_manager.dart';
 import '../../../manager/validation_model_manager.dart';
-import '../../../request_models/pagination_model.dart';
-import '../../../request_models/response_model.dart';
-import '../../../request_models/user/register_user_model.dart';
-import '../../../request_models/user/update_user_model.dart';
-import '../../../request_models/user/user_model.dart';
-import '../../../strings.dart';
+import '../../../user/api_request_models/user_model.dart';
+import '../../api_request_models/register_user_model.dart';
+import '../../api_request_models/update_user_model.dart';
 
 part 'users_adapter.g.dart';
 

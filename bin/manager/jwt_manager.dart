@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
-import '../logger.dart';
+import '../core/core.dart';
 
 class JwtManager {
   static final _secret = SecretKey('1YQ#(b5n4RlGmk@B5V|u}1}~S');
