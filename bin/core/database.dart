@@ -2,9 +2,10 @@ import 'dart:io';
 
 import 'package:sqlite3/sqlite3.dart';
 
-import '../city/dao/city_dao.dart';
-import '../user/dao/user_dao.dart';
-import 'logger.dart';
+import '../city/city.dart';
+import '../core/core.dart';
+import '../school/school.dart';
+import '../user/user.dart';
 
 class DatabaseManager {
   static const idKey = "id";
@@ -16,6 +17,7 @@ class DatabaseManager {
 
   static CityDao cityDao = CityDao(db);
   static UserDao userDao = UserDao(db);
+  static SchoolDao schoolDao = SchoolDao(db);
 
   static void openDatabase(String? dbName) {
     var dbFile = File("${Directory.current.path}/${dbName ?? _dbName}");
@@ -56,10 +58,6 @@ class DatabaseManager {
 String createTable(String tableName, List<String> columns, {List<String> constraints = const <String>[]}) =>
     '''
     CREATE TABLE IF NOT EXISTS $tableName (
-    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
-    ${columns.join(',\n')},
-    createdAt TIMESTAMP DATETIME NOT NULL DEFAULT (STRFTIME('%Y-%m-%dT%H:%M:%f000Z', 'NOW')),
-    updatedAt TIMESTAMP DATETIME NOT NULL DEFAULT (STRFTIME('%Y-%m-%dT%H:%M:%f000Z', 'NOW'))
-    ${constraints.isNotEmpty ? ",\n${constraints.join(",\n")}" : ""}
+    ${[...BaseDaoModel.tableColumns, ...columns, ...constraints].join(',\n')} 
     );
 ''';
