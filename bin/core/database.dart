@@ -7,6 +7,9 @@ import '../core/core.dart';
 import '../school/school.dart';
 import '../user/user.dart';
 
+//NEW_MODULE_PATH_PLACE_HOLDER
+//Do not remove the line above
+
 class DatabaseManager {
   static const idKey = "id";
   static int databaseVersion = 0;
@@ -18,6 +21,9 @@ class DatabaseManager {
   static CityDao cityDao = CityDao(db);
   static UserDao userDao = UserDao(db);
   static SchoolDao schoolDao = SchoolDao(db);
+
+  //NEW_MODULE_DAO_PLACE_HOLDER
+  //Do not remove the line above
 
   static void openDatabase(String? dbName) {
     var dbFile = File("${Directory.current.path}/${dbName ?? _dbName}");
@@ -44,6 +50,9 @@ class DatabaseManager {
 
       CityDao.migrate(newDbVersion);
       UserDao.migrate(newDbVersion);
+      SchoolDao.migrate(newDbVersion);
+      //NEW_MODULE_MIGRATION_PLACE_HOLDER
+      //Do not remove the line above
 
       db.userVersion = newDbVersion;
     }
@@ -52,6 +61,9 @@ class DatabaseManager {
   static void createDatabaseTable() {
     db.execute(createTable(CityDao.tableName, CityDao.tableColumns));
     db.execute(createTable(UserDao.tableName, UserDao.tableColumns));
+    db.execute(createTable(SchoolDao.tableName, SchoolDao.tableColumns));
+    //NEW_MODULE_CREATE_TABLE_PLACE_HOLDER
+    //Do not remove the line above
   }
 }
 
