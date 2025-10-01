@@ -1,0 +1,24 @@
+import '../../core/core.dart';
+import '../dao/MODULE_dao_model.dart';
+
+class MODULE_CAMELModel extends BaseAdapterModel<MODULE_CAMELDaoModel> {
+  static const nameKey = "name";
+
+  String name;
+
+  MODULE_CAMELModel(Map<String, dynamic> data, [String? MODULEId]) : name = data[nameKey];
+
+  static List<String> get requiredFields => [nameKey];
+
+  static Map<String, Type> get fieldTypes => {nameKey: String};
+
+  static String? validateField(dynamic value, String key) {
+    return switch (key) {
+      nameKey => (value as String).trim().isEmpty ? StringsManager.emptyFields() : null,
+      _ => null,
+    };
+  }
+
+  @override
+  MODULE_CAMELDaoModel toDao() => MODULE_CAMELDaoModel(name);
+}

@@ -1,0 +1,9 @@
+import '../../core/core.dart';
+
+class MODULE_CAMELDaoModel extends BaseDaoModel {
+  static const nameKey = "name";
+
+  String name;
+
+  MODULE_CAMELDaoModel(this.name);
+}

@@ -1,0 +1,56 @@
+import 'package:sqlite3/sqlite3.dart';
+
+import '../../core/core.dart';
+import 'MODULE_dao_model.dart';
+import 'update_MODULE_dao_model.dart';
+
+class MODULE_CAMELDao extends BaseDaoModel {
+  static const String tableName = "cities";
+
+  static const List<String> tableColumns = ["${MODULE_CAMELDaoModel.nameKey} TEXT NOT NULL"];
+
+  static const List<String> tableConstraints = ["UNIQUE(${MODULE_CAMELDaoModel.nameKey})"];
+
+  static void migrate(int newDbVersion) {
+    switch (newDbVersion) {
+      case 1:
+      //db.execute('''
+      //BEGIN TRANSACTION;
+      //
+      //  ALTER TABLE tasks
+      //  RENAME COLUMN date TO startDate;
+      //
+      //  ALTER TABLE tasks
+      //  ADD COLUMN endDate DATETIME;
+      //
+      //  UPDATE tasks SET endDate = startDate WHERE endDate IS NULL;
+      //
+      //COMMIT;
+      //''');
+      //break;
+    }
+  }
+
+  Database db;
+
+  MODULE_CAMELDao(this.db);
+}
+
+extension MODULE_CAMELDaoExt on MODULE_CAMELDao {
+  List<Row> getMODULE_CAMELs({PaginationDaoModel? pagination}) =>
+      CrudDao.getAll(db, MODULE_CAMELDao.tableName, pagination: pagination, orderByField: [MODULE_CAMELDaoModel.nameKey]);
+
+  Row insertMODULE_CAMEL(MODULE_CAMELDaoModel MODULE) => CrudDao.insert(db, MODULE_CAMELDao.tableName, [MODULE_CAMELDaoModel.nameKey], [MODULE.name]);
+
+  Map<String, dynamic>? getMODULE_CAMEL(String MODULEId) => CrudDao.getById(db, MODULE_CAMELDao.tableName, MODULEId);
+
+  Row? updateMODULE_CAMEL(UpdateMODULE_CAMELDaoModel MODULE, String MODULEId) => CrudDao.update(
+    db,
+    MODULE_CAMELDao.tableName,
+    MODULEId,
+    [if (MODULE.name != null) UpdateMODULE_CAMELDaoModel.nameKey],
+    [if (MODULE.name != null) MODULE.name],
+  );
+
+  bool deleteMODULE_CAMEL(String MODULE) => CrudDao.delete(db, MODULE_CAMELDao.tableName, MODULE);
+}

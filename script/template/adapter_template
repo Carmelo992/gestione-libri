@@ -1,0 +1,112 @@
+import 'dart:convert';
+
+import 'package:shelf/shelf.dart';
+import 'package:shelf_router/shelf_router.dart';
+
+import '../../../core/core.dart';
+import '../../../manager/validation_model_manager.dart';
+import "../../api_request_models/MODULE_model.dart";
+import "../../api_request_models/update_MODULE_model.dart";
+import "../../dao/MODULE_dao.dart";
+
+part 'TARGET_MODULE_adapter.g.dart';
+
+class TARGET_CAMELMODULE_CAMELAdapter {
+  TARGET_CAMELMODULE_CAMELAdapter();
+
+  @Route.get("/")
+  Response _getAllMODULE_CAMELs(Request request) {
+    var queryParameters = request.url.queryParameters;
+
+    bool withPagination =
+        queryParameters[PaginationModel.limitKey] != null && queryParameters[PaginationModel.offsetKey] != null;
+    ValidationError? validationError;
+    if (withPagination) {
+      validationError = ValidationModelsManager.validate(
+        queryParameters,
+        PaginationModel.requiredFields,
+        PaginationModel.fieldTypes,
+        PaginationModel.validateField,
+      );
+    }
+
+    return switch (validationError) {
+      null => CustomResponse.ok(
+        DatabaseManager.MODULEDao.getMODULE_CAMELs(pagination: withPagination ? PaginationModel(queryParameters).toDao() : null),
+      ),
+      _ => CustomResponse.badRequest(body: validationError.bodyJson),
+    };
+  }
+
+  @Route.put("/")
+  Future<Response> _insertMODULE_CAMEL(Request request) async {
+    String query = await request.readAsString();
+    Map<String, dynamic> queryDecoded = jsonDecode(query);
+
+    var validationError = ValidationModelsManager.validate(
+      queryDecoded,
+      MODULE_CAMELModel.requiredFields,
+      MODULE_CAMELModel.fieldTypes,
+      MODULE_CAMELModel.validateField,
+    );
+    return switch (validationError) {
+      null => CustomResponse.ok(DatabaseManager.MODULEDao.insertMODULE_CAMEL(MODULE_CAMELModel(queryDecoded).toDao())),
+      _ => CustomResponse.badRequest(body: validationError.bodyJson),
+    };
+  }
+
+  @Route.get("/<MODULEId|[0-9]+>")
+  Response _getMODULE_CAMEL(Request request, String MODULEId) {
+    var resource = DatabaseManager.MODULEDao.getMODULE_CAMEL(MODULEId);
+    if (resource != null) {
+      return CustomResponse.ok(resource);
+    } else {
+      return CustomResponse.notFound();
+    }
+  }
+
+  @Route.put("/<MODULEId|[0-9]+>")
+  Future<Response> _editMODULE_CAMEL(Request request, String MODULEId) async {
+    String query = await request.readAsString();
+    Map<String, dynamic> queryDecoded = jsonDecode(query);
+    if (queryDecoded.isEmpty) {
+      Logger.log(StringsManager.missingDataError());
+      return CustomResponse.badRequest(body: {StringsManager.error(): StringsManager.missingDataError()});
+    }
+
+    var validationError = ValidationModelsManager.validate(
+      queryDecoded,
+      UpdateMODULE_CAMELModel.requiredFields,
+      UpdateMODULE_CAMELModel.fieldTypes,
+      UpdateMODULE_CAMELModel.validateField,
+    );
+    return switch (validationError) {
+      null => () {
+        var model = UpdateMODULE_CAMELModel(queryDecoded).toDao();
+        var updatedClient = DatabaseManager.MODULEDao.updateMODULE_CAMEL(model, MODULEId);
+        if (updatedClient == null) {
+          return CustomResponse.notFound();
+        }
+        return CustomResponse.ok(updatedClient);
+      }.call(),
+      _ => CustomResponse.badRequest(body: validationError.bodyJson),
+    };
+  }
+
+  @Route.delete("/<MODULEId|[0-9]+>")
+  Future<Response> _deleteMODULE_CAMEL(Request request, String MODULEId) async {
+    if (MODULEId.isEmpty) {
+      return CustomResponse.badRequest(body: {StringsManager.error(): StringsManager.invalidId});
+    }
+    bool success = DatabaseManager.MODULEDao.deleteMODULE_CAMEL(MODULEId);
+    if (success) {
+      return CustomResponse.ok(null);
+    }
+    return CustomResponse.notFound();
+  }
+
+  @Route.all("/<ignored|.*>")
+  Response notFound(Request request) => CustomResponse.notFound();
+
+  Router get router => _$TARGET_CAMELMODULE_CAMELAdapterRouter(this);
+}
