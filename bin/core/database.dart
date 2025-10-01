@@ -7,6 +7,7 @@ import '../core/core.dart';
 import '../school/school.dart';
 import '../user/user.dart';
 
+import '../book/book.dart';
 //NEW_MODULE_PATH_PLACE_HOLDER
 //Do not remove the line above
 
@@ -22,6 +23,7 @@ class DatabaseManager {
   static UserDao userDao = UserDao(db);
   static SchoolDao schoolDao = SchoolDao(db);
 
+	static BookDao bookDao = BookDao(db);
   //NEW_MODULE_DAO_PLACE_HOLDER
   //Do not remove the line above
 
@@ -51,6 +53,7 @@ class DatabaseManager {
       CityDao.migrate(newDbVersion);
       UserDao.migrate(newDbVersion);
       SchoolDao.migrate(newDbVersion);
+			BookDao.migrate(newDbVersion);
       //NEW_MODULE_MIGRATION_PLACE_HOLDER
       //Do not remove the line above
 
@@ -62,6 +65,7 @@ class DatabaseManager {
     db.execute(createTable(CityDao.tableName, CityDao.tableColumns));
     db.execute(createTable(UserDao.tableName, UserDao.tableColumns));
     db.execute(createTable(SchoolDao.tableName, SchoolDao.tableColumns));
+		db.execute(createTable(BookDao.tableName, BookDao.tableColumns));
     //NEW_MODULE_CREATE_TABLE_PLACE_HOLDER
     //Do not remove the line above
   }

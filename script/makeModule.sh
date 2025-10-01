@@ -27,6 +27,7 @@ echo "  - Generazione adapters finali..."
 
 echo "✅ Creazione modulo completata con successo."
 echo "✍️ Esecuzione del commit..."
+git add -A
 git commit -m "Added module $1" .
 
 echo "🎉 Commit eseguito. Modulo '$1' aggiunto correttamente."
