@@ -5,7 +5,7 @@ import 'MODULE_dao_model.dart';
 import 'update_MODULE_dao_model.dart';
 
 class MODULE_CAMELDao extends BaseDaoModel {
-  static const String tableName = "cities";
+  static const String tableName = "MODULEs";
 
   static const List<String> tableColumns = ["${MODULE_CAMELDaoModel.nameKey} TEXT NOT NULL"];
 

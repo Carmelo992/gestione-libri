@@ -5,7 +5,7 @@ import 'book_dao_model.dart';
 import 'update_book_dao_model.dart';
 
 class BookDao extends BaseDaoModel {
-  static const String tableName = "cities";
+  static const String tableName = "books";
 
   static const List<String> tableColumns = ["${BookDaoModel.nameKey} TEXT NOT NULL"];
 
