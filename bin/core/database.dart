@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:sqlite3/sqlite3.dart';
 
+import '../book/book.dart';
 import '../city/city.dart';
 import '../core/core.dart';
 import '../school/school.dart';
+import '../student/student.dart';
 import '../user/user.dart';
-
-import '../book/book.dart';
 //NEW_MODULE_PATH_PLACE_HOLDER
 //Do not remove the line above
 
@@ -24,6 +24,7 @@ class DatabaseManager {
   static SchoolDao schoolDao = SchoolDao(db);
 
 	static BookDao bookDao = BookDao(db);
+  static StudentDao studentDao = StudentDao(db);
   //NEW_MODULE_DAO_PLACE_HOLDER
   //Do not remove the line above
 
@@ -54,6 +55,7 @@ class DatabaseManager {
       UserDao.migrate(newDbVersion);
       SchoolDao.migrate(newDbVersion);
 			BookDao.migrate(newDbVersion);
+      StudentDao.migrate(newDbVersion);
       //NEW_MODULE_MIGRATION_PLACE_HOLDER
       //Do not remove the line above
 
@@ -66,6 +68,7 @@ class DatabaseManager {
     db.execute(createTable(UserDao.tableName, UserDao.tableColumns));
     db.execute(createTable(SchoolDao.tableName, SchoolDao.tableColumns));
 		db.execute(createTable(BookDao.tableName, BookDao.tableColumns));
+    db.execute(createTable(StudentDao.tableName, StudentDao.tableColumns));
     //NEW_MODULE_CREATE_TABLE_PLACE_HOLDER
     //Do not remove the line above
   }
