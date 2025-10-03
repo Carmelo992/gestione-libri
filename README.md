@@ -65,8 +65,8 @@ default value, and some constraints (for example `UNIQUE`).
 
 The changes should be applied to:
 
-- `bin/[module]/dao/[module]_dao.dart`
-- `bin/[module]/dao/[module]_dao_model.dart`
-- `bin/[module]/dao/update_[module]_dao_model.dart`
+- `bin/[module]/dao/[module]_dao.dart` ✅
+- `bin/[module]/dao/[module]_dao_model.dart` ✅
+- `bin/[module]/dao/update_[module]_dao_model.dart` ✅
 - `bin/[module]/api_request_models/[module]_model.dart`
 - `bin/[module]/api_request_models/update_[module]_dao_model.dart`

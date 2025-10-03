@@ -3,8 +3,16 @@ import 'MODULE_dao_model.dart';
 
 class UpdateMODULE_CAMELDaoModel extends BaseDaoModel {
   static const nameKey = MODULE_CAMELDaoModel.nameKey;
+  //KEY_PLACE_HOLDER
+  //Do not remove the line above
 
   String? name;
+  //FIELD_PLACE_HOLDER
+  //Do not remove the line above
 
-  UpdateMODULE_CAMELDaoModel(this.name);
+  UpdateMODULE_CAMELDaoModel({
+    required this.name,
+    //CONSTRUCTOR_PLACE_HOLDER
+    //Do not remove the line above
+  });
 }

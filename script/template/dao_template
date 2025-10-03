@@ -48,7 +48,16 @@ extension MODULE_CAMELDaoExt on MODULE_CAMELDao {
   List<Row> getMODULE_CAMELs({PaginationDaoModel? pagination}) =>
       CrudDao.getAll(db, MODULE_CAMELDao.tableName, pagination: pagination, orderByField: [MODULE_CAMELDaoModel.nameKey]);
 
-  Row insertMODULE_CAMEL(MODULE_CAMELDaoModel MODULE) => CrudDao.insert(db, MODULE_CAMELDao.tableName, [MODULE_CAMELDaoModel.nameKey], [MODULE.name]);
+  Row insertMODULE_CAMEL(MODULE_CAMELDaoModel MODULE) => CrudDao.insert(db, MODULE_CAMELDao.tableName, [
+    MODULE_CAMELDaoModel.nameKey,
+    //COLUMN_NAME_PLACE_HOLDER
+    //Do not remove the line above
+
+  ], [
+    MODULE.name,
+    //COLUMN_VALUE_PLACE_HOLDER
+    //Do not remove the line above
+  ]);
 
   Map<String, dynamic>? getMODULE_CAMEL(String MODULEId) => CrudDao.getById(db, MODULE_CAMELDao.tableName, MODULEId);
 
