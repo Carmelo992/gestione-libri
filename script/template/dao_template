@@ -7,9 +7,17 @@ import 'update_MODULE_dao_model.dart';
 class MODULE_CAMELDao extends BaseDaoModel {
   static const String tableName = "MODULEs";
 
-  static const List<String> tableColumns = ["${MODULE_CAMELDaoModel.nameKey} TEXT NOT NULL"];
+  static const List<String> tableColumns = [
+    "${MODULE_CAMELDaoModel.nameKey} TEXT NOT NULL",
+    //COLUMN_PLACE_HOLDER
+    //Do not remove the line above
+  ];
 
-  static const List<String> tableConstraints = ["UNIQUE(${MODULE_CAMELDaoModel.nameKey})"];
+  static const List<String> tableConstraints = [
+    "UNIQUE(${MODULE_CAMELDaoModel.nameKey})",
+    //CONSTRAINT_PLACE_HOLDER
+    //Do not remove the line above
+  ];
 
   static void migrate(int newDbVersion) {
     switch (newDbVersion) {
@@ -48,8 +56,16 @@ extension MODULE_CAMELDaoExt on MODULE_CAMELDao {
     db,
     MODULE_CAMELDao.tableName,
     MODULEId,
-    [if (MODULE.name != null) UpdateMODULE_CAMELDaoModel.nameKey],
-    [if (MODULE.name != null) MODULE.name],
+    [
+        if (MODULE.name != null) UpdateMODULE_CAMELDaoModel.nameKey,
+        //COLUMN_UPDATE_PLACE_HOLDER
+        //Do not remove the line above
+    ],
+    [
+        if (MODULE.name != null) MODULE.name,
+        //COLUMN_UPDATE_VALUE_PLACE_HOLDER
+        //Do not remove the line above
+    ],
   );
 
   bool deleteMODULE_CAMEL(String MODULE) => CrudDao.delete(db, MODULE_CAMELDao.tableName, MODULE);
