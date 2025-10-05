@@ -25,12 +25,10 @@ then
     fi
 
     fieldNameCamelCaseString=$(echo "$fieldName" | awk -F_ '{printf "%s", $1; for(i=2; i<=NF; i++) {printf "%s%s", toupper(substr($i,1,1)), substr($i,2)}; printf "\n"}')
-    echo "$fieldNameCamelCaseString"
 
     columnRow="\${${moduleNamePascalCase}DaoModel.${fieldNameCamelCaseString}Key}"
 
     read -r -p "Enter field SQL type (supported types: TEXT, INTEGER, TIMESTAMP): " fieldType
-    echo $filedType
     if [[ fieldType == "" || ($fieldType != "TEXT" && $fieldType != "INTEGER" && $fieldType != "TIMESTAMP") ]]
     then
       break
@@ -44,7 +42,6 @@ then
 
     isNullable=1
     read -r -p "Has it to be nullable?: (Y/n) " shouldNullable
-    echo "nullable -> $shouldNullable"
     if [[ $shouldNullable == "" ]]
     then
       break
@@ -56,8 +53,8 @@ then
       columnRow="${columnRow} NOT NULL"
     fi
 
+    hasDefault=0
     read -r -p "Has it a default value?: (Y/n) " shouldHasDefault
-    echo "default -> $shouldHasDefault"
     if [[ $shouldHasDefault == "" ]]
     then
       break
@@ -65,13 +62,12 @@ then
 
     if [[ $shouldHasDefault == [Yy] || $shouldHasDefault == [yY][eE][sS] ]]
     then
+      hasDefault=1
       read -r -p "Insert default value" defaultValue
-      echo "defaultValue -> $defaultValue"
       columnRow="${columnRow} DEFAULT $defaultValue"
     fi
 
     read -r -p "Has it to be unique?: (Y/n) " shouldUnique
-    echo "shouldUnique -> $shouldUnique"
     if [[ $shouldUnique == "" ]]
     then
       break
@@ -116,33 +112,44 @@ then
     " $daoFileName
 
     row="static const String ${fieldNameCamelCaseString}Key = \"${fieldNameCamelCaseString}\";"
-    updateRow="static const String ${fieldNameCamelCaseString}Key = ${moduleNamePascalCase}DaoModel.${fieldNameCamelCaseString}Key;"
+    daoRow="static const String ${fieldNameCamelCaseString}Key = \"${fieldName}\";"
+    updateDaoRow="static const String ${fieldNameCamelCaseString}Key = ${moduleNamePascalCase}DaoModel.${fieldNameCamelCaseString}Key;"
+    updateRow="static const String ${fieldNameCamelCaseString}Key = ${moduleNamePascalCase}Model.${fieldNameCamelCaseString}Key;"
     l="/\/\/KEY_PLACE_HOLDER"
     sed -i '' "$l/i\\
-  $row
+  $daoRow
     " $modelDaoFileName
 
     l="/\/\/KEY_PLACE_HOLDER"
     sed -i '' "$l/i\\
-  $updateRow
+  $updateDaoRow
     " $modelUpdateDaoFileName
 
-    #final String name;
+    l="/\/\/KEY_PLACE_HOLDER"
+    sed -i '' "$l/i\\
+  $row
+    " $modelApiRequestFileName
+
+    l="/\/\/KEY_PLACE_HOLDER"
+    sed -i '' "$l/i\\
+  $updateRow
+    " $modelApiRequestUpdateFileName
+
     row="final"
     updateRow="final"
     if [[ $fieldType == "TEXT" ]]
     then
-      row="${row} String"
-      updateRow="${updateRow} String?"
+      dartFieldType="String"
     elif [[ $fieldType == "INTEGER" ]]
     then
-      row="${row} int"
-      updateRow="${updateRow} int?"
+      dartFieldType="int"
     elif [[ $fieldType == "TIMESTAMP" ]]
     then
-      row="${row} DateTime"
-      updateRow="${updateRow} DateTime?"
+      dartFieldType="DateTime"
     fi
+
+    row="${row} $dartFieldType"
+    updateRow="${row}?"
 
     if [[ $isNullable == 1 ]]
     then
@@ -161,7 +168,16 @@ then
     $updateRow
     " $modelUpdateDaoFileName
 
-    #required this.name,
+    l="/\/\/FIELD_PLACE_HOLDER"
+    sed -i '' "$l/i\\
+  $row
+    " $modelApiRequestFileName
+
+    l="/\/\/FIELD_PLACE_HOLDER"
+    sed -i '' "$l/i\\
+  $updateRow
+    " $modelApiRequestUpdateFileName
+
     row="required this.${fieldNameCamelCaseString},"
     l="/\/\/CONSTRUCTOR_PLACE_HOLDER"
     sed -i '' "$l/i\\
@@ -173,12 +189,52 @@ then
     $row
     " $modelUpdateDaoFileName
 
+    constructorRow="$fieldNameCamelCaseString = data[${fieldNameCamelCaseString}Key],"
+    l="/\/\/CONSTRUCTOR_PLACE_HOLDER"
+    sed -i '' "$l/i\\
+    $constructorRow
+    " $modelApiRequestFileName
+
+    l="/\/\/CONSTRUCTOR_PLACE_HOLDER"
+    sed -i '' "$l/i\\
+    $constructorRow
+    " $modelApiRequestUpdateFileName
+
+    if [[ $isNullable == 0 && $hasDefault == 0 ]]
+    then
+      requiredRow="${fieldNameCamelCaseString}Key,"
+      l="/\/\/REQUIRED_FIELD_PLACE_HOLDER"
+      sed -i '' "$l/i\\
+    $requiredRow
+      " $modelApiRequestFileName
+    fi
+
+    fieldTypeRow="${fieldNameCamelCaseString}Key: ${dartFieldType},"
+    l="/\/\/FIELD_TYPE_PLACE_HOLDER"
+    sed -i '' "$l/i\\
+    $fieldTypeRow
+    " $modelApiRequestFileName
+
+    toDaoRow="$fieldNameCamelCaseString: $fieldNameCamelCaseString,"
+    l="/\/\/TO_DAO_PLACE_HOLDER"
+    sed -i '' "$l/i\\
+    $toDaoRow
+    " $modelApiRequestFileName
+
+    sed -i '' "$l/i\\
+    $toDaoRow
+    " $modelApiRequestUpdateFileName
+
     read -r -p "Do you want to add another field? (Y/n): " readResult
 
     if [[ $readResult == [Nn] || $readResult == [Nn][Oo] ]]
     then
+      lastConstructorString="${constructorRow%,}"
+      searchString=$(echo "$constructorRow" | sed -e 's/\[/\\[/g' -e 's/\]/\\]/g')
+
+      sed -i '' "s/${searchString}/${lastConstructorString}/g" "$modelApiRequestFileName"
+      sed -i '' "s/${searchString}/${lastConstructorString}/g" "$modelApiRequestUpdateFileName"
       break
     fi
-
   done
 fi

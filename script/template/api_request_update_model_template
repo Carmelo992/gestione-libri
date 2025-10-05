@@ -4,10 +4,18 @@ import 'MODULE_model.dart';
 
 class UpdateMODULE_CAMELModel extends BaseAdapterModel<UpdateMODULE_CAMELDaoModel> {
   static const nameKey = MODULE_CAMELModel.nameKey;
+  //KEY_PLACE_HOLDER
+  //Do not remove the line above
 
-  String? name;
+  final String? name;
+  //FIELD_PLACE_HOLDER
+  //Do not remove the line above
 
-  UpdateMODULE_CAMELModel(Map<String, dynamic> data, [String? MODULEId]) : name = data[nameKey];
+  UpdateMODULE_CAMELModel(Map<String, dynamic> data, [String? MODULEId]) :
+    name = data[nameKey],
+    //CONSTRUCTOR_PLACE_HOLDER
+    //Do not remove the line above
+  ;
 
   static List<String> get requiredFields => [];
 
@@ -16,5 +24,9 @@ class UpdateMODULE_CAMELModel extends BaseAdapterModel<UpdateMODULE_CAMELDaoMode
   static String? validateField(dynamic value, String key) => MODULE_CAMELModel.validateField(value, key);
 
   @override
-  UpdateMODULE_CAMELDaoModel toDao() => UpdateMODULE_CAMELDaoModel(name);
+  UpdateMODULE_CAMELDaoModel toDao() => UpdateMODULE_CAMELDaoModel(
+    name: name,
+    //TO_DAO_PLACE_HOLDER
+    //Do not remove the line above
+  );
 }
