@@ -27,6 +27,7 @@ class StringsManager {
     StringKey.timeIntervalAlreadyTakenError: {"en": "time range already taken"},
     StringKey.wrongUserPermission: {"en": "A wrong user permission has been insert"},
     StringKey.clientNotFound: {"en": "Client not found"},
+    StringKey.invalidPrice: {"en": "Invalid price, it must be greater than zero"},
     //STRING_MAP_KEY
     //WARNING: DO NOT CANCEL THE LINE ABOVE
   };
@@ -83,6 +84,8 @@ class StringsManager {
   static String wrongUserPermission([String? lang]) => _get(StringKey.wrongUserPermission, lang);
 
   static String clientNotFound([String? lang]) => _get(StringKey.clientNotFound, lang);
+
+  static String invalidPrice([String? lang]) => _get(StringKey.invalidPrice, lang);
   //STRING_METHOD
   //WARNING: DO NOT CANCEL THE LINE ABOVE
 }
@@ -111,6 +114,7 @@ enum StringKey {
   timeIntervalAlreadyTakenError,
   wrongUserPermission,
   clientNotFound,
+  invalidPrice,
   //STRING_KEY
   //WARNING: DO NOT CANCEL THE LINE ABOVE
 }

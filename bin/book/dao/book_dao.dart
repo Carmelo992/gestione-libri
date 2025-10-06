@@ -7,7 +7,11 @@ import 'update_book_dao_model.dart';
 class BookDao extends BaseDaoModel {
   static const String tableName = "books";
 
-  static const List<String> tableColumns = ["${BookDaoModel.nameKey} TEXT NOT NULL"];
+  static const List<String> tableColumns = [
+    "${BookDaoModel.nameKey} TEXT NOT NULL",
+    "${BookDaoModel.bookCodeKey} TEXT NOT NULL",
+    "${BookDaoModel.priceKey} REAL NOT NULL",
+  ];
 
   static const List<String> tableConstraints = ["UNIQUE(${BookDaoModel.nameKey})"];
 
@@ -48,8 +52,12 @@ extension BookDaoExt on BookDao {
     db,
     BookDao.tableName,
     bookId,
-    [if (book.name != null) UpdateBookDaoModel.nameKey],
-    [if (book.name != null) book.name],
+    [
+      if (book.name != null) UpdateBookDaoModel.nameKey,
+      if (book.bookCode != null) UpdateBookDaoModel.bookCodeKey,
+      if (book.price != null) UpdateBookDaoModel.priceKey,
+    ],
+    [if (book.name != null) book.name, if (book.bookCode != null) book.bookCode, if (book.price != null) book.price],
   );
 
   bool deleteBook(String book) => CrudDao.delete(db, BookDao.tableName, book);

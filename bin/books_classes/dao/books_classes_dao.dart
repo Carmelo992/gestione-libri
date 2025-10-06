@@ -13,6 +13,9 @@ class BooksClassesDao extends BaseDaoModel {
     "${BooksClassesDaoModel.nameKey} TEXT NOT NULL",
     "${BooksClassesDaoModel.classIdKey} INTEGER NOT NULL",
     "${BooksClassesDaoModel.bookIdKey} INTEGER NOT NULL",
+    "${BooksClassesDaoModel.toBuyKey} BOOLEAN NOT NULL",
+    "${BooksClassesDaoModel.newVersionKey} BOOLEAN NOT NULL",
+    "${BooksClassesDaoModel.mandatoryKey} BOOLEAN NOT NULL",
     //COLUMN_PLACE_HOLDER
     //Do not remove the line above
   ];

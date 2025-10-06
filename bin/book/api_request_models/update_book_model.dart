@@ -4,8 +4,11 @@ import 'book_model.dart';
 
 class UpdateBookModel extends BaseAdapterModel<UpdateBookDaoModel> {
   static const nameKey = BookModel.nameKey;
+  static const String bookCodeKey = BookModel.bookCodeKey;
+  static const String priceKey = BookModel.priceKey;
 
-  String? name;
+  String? name, bookCode;
+  double? price;
 
   UpdateBookModel(Map<String, dynamic> data, [String? bookId]) : name = data[nameKey];
 
@@ -16,5 +19,5 @@ class UpdateBookModel extends BaseAdapterModel<UpdateBookDaoModel> {
   static String? validateField(dynamic value, String key) => BookModel.validateField(value, key);
 
   @override
-  UpdateBookDaoModel toDao() => UpdateBookDaoModel(name);
+  UpdateBookDaoModel toDao() => UpdateBookDaoModel(name: name, bookCode: bookCode, price: price);
 }
