@@ -76,6 +76,17 @@ modelApiRequestUpdateFileName="api_request_models/update_${moduleNameLower}_mode
 
 if ! confirm "Vuoi aggiungere campi personalizzati a questo modulo?"; then
     echo "Operazione annullata."
+    constructorRow="name = data[nameKey],"
+    lastConstructorString="${constructorRow%,}"
+    # Sanifica la stringa per `sed` (escape di '[' e ']')
+    searchString=$(echo "$constructorRow" | sed -e 's/\[/\\[/g' -e 's/\]/\\]/g')
+
+    echo "Ultimo costruttore: $constructorRow"
+    echo "Ultimo costruttore senza vigola: $lastConstructorString"
+    echo "Sanitized search string: $searchString"
+    sed -i '' "s/${searchString}/${lastConstructorString}/g" "$modelApiRequestFileName"
+    sed -i '' "s/${searchString}/${lastConstructorString}/g" "$modelApiRequestUpdateFileName"
+
     exit 0
 fi
 

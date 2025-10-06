@@ -1,31 +1,91 @@
 #!/bin/bash
-mkdir dao
-cd "dao"
 
-moduleName=$1
-moduleNameLower=$(echo "$moduleName" | tr '[:upper:]' '[:lower:]')
-firstChar=$(echo "${moduleNameLower:0:1}" | tr '[:lower:]' '[:upper:]')
-rest="${moduleNameLower:1}"
-moduleNamePascalCase="$firstChar$rest"
+# Interrompe immediatamente lo script se un comando fallisce.
+set -e
 
-daoFileName="$1_dao.dart"
-modelDaoFileName="$1_dao_model.dart"
-modelUpdateDaoFileName="update_${moduleNameLower}_dao_model.dart"
+# ==============================================================================
+# Funzioni di Utilità
+# ==============================================================================
 
-echo $daoFileName
-echo $modelDaoFileName
-echo $modelUpdateDaoFileName
+# Funzione per convertire una stringa in PascalCase (es. nome_modulo -> NomeModulo)
+# Argomento 1: La stringa da convertire
+to_pascal_case() {
+    local lower_case
+    lower_case=$(echo "$1" | tr '[:upper:]' '[:lower:]')
 
-cp ../../../script/template/dao_template $daoFileName
-cp ../../../script/template/dao_model_template $modelDaoFileName
-cp ../../../script/template/update_dao_model_template $modelUpdateDaoFileName
+    local first_char
+    first_char=$(echo "${lower_case:0:1}" | tr '[:lower:]' '[:upper:]')
 
-sed -i '' "s@MODULE_CAMEL@$moduleNamePascalCase@g" $daoFileName
-sed -i '' "s@MODULE@$moduleNameLower@g" $daoFileName
+    echo "$first_char${lower_case:1}"
+}
 
-sed -i '' "s@MODULE_CAMEL@$moduleNamePascalCase@g" $modelDaoFileName
-sed -i '' "s@MODULE@$moduleNameLower@g" $modelDaoFileName
+# Funzione per processare un singolo file: copia e sostituzione
+# Argomenti: 1=Percorso Template, 2=Percorso File di Output
+process_template() {
+    local template_path="$1"
+    local output_file="$2"
 
-sed -i '' "s@MODULE_CAMEL@$moduleNamePascalCase@g" $modelUpdateDaoFileName
-sed -i '' "s@MODULE@$moduleNameLower@g" $modelUpdateDaoFileName
+    echo "Copia del template in: $output_file"
+    cp "$template_path" "$output_file"
 
+    echo "Sostituzione dei placeholder in: $(basename "$output_file")"
+    sed -i '' \
+        -e "s@MODULE_CAMEL@$module_name_pascal@g" \
+        -e "s@MODULE@$module_name_lower@g" \
+        "$output_file"
+}
+
+# ==============================================================================
+# Validazione degli Input
+# ==============================================================================
+
+# Controlla che il nome del modulo sia stato fornito
+if [[ -z "$1" ]]; then
+    echo "Errore: Nome del modulo non fornito." >&2
+    echo "Uso: $0 <NomeModulo>" >&2
+    exit 1
+fi
+
+# ==============================================================================
+# Definizione delle Variabili e dei Percorsi
+# ==============================================================================
+
+# Ottiene il percorso assoluto della directory in cui si trova questo script.
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+# Definisce i percorsi dei template in modo robusto
+TEMPLATE_DAO_PATH="${SCRIPT_DIR}/template/dao_template"
+TEMPLATE_MODEL_PATH="${SCRIPT_DIR}/template/dao_model_template"
+TEMPLATE_UPDATE_MODEL_PATH="${SCRIPT_DIR}/template/update_dao_model_template"
+
+# Controlla se tutti i file template esistono prima di procedere
+if [[ ! -f "$TEMPLATE_DAO_PATH" ]] || [[ ! -f "$TEMPLATE_MODEL_PATH" ]] || [[ ! -f "$TEMPLATE_UPDATE_MODEL_PATH" ]]; then
+    echo "Errore: Uno o più file template non sono stati trovati nella directory 'template'." >&2
+    exit 1
+fi
+
+# -- Variabili per il Modulo --
+module_name_raw="$1"
+module_name_lower=$(echo "$module_name_raw" | tr '[:upper:]' '[:lower:]')
+module_name_pascal=$(to_pascal_case "$module_name_raw")
+
+# -- Variabili di percorso --
+output_dir="dao"
+dao_file="${output_dir}/${module_name_lower}_dao.dart"
+model_dao_file="${output_dir}/${module_name_lower}_dao_model.dart"
+update_model_dao_file="${output_dir}/update_${module_name_lower}_dao_model.dart"
+
+# ==============================================================================
+# Logica Principale
+# ==============================================================================
+
+echo "Creazione della directory di output: $output_dir"
+mkdir -p "$output_dir" # L'opzione -p evita errori se la directory esiste già
+
+# Processa ogni file usando la funzione helper
+process_template "$TEMPLATE_DAO_PATH" "$dao_file"
+process_template "$TEMPLATE_MODEL_PATH" "$model_dao_file"
+process_template "$TEMPLATE_UPDATE_MODEL_PATH" "$update_model_dao_file"
+
+echo ""
+echo "File DAO per '$module_name_raw' creati con successo nella directory '$output_dir'."
