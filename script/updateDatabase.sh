@@ -41,7 +41,6 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 # Definisce i percorsi del progetto e del file da modificare in modo sicuro.
 PROJECT_ROOT_DIR="$(dirname "$SCRIPT_DIR")"
-echo "****** $PROJECT_ROOT_DIR"
 DATABASE_FILE_PATH="${PROJECT_ROOT_DIR}/bin/core/database.dart"
 
 # Controlla se il file 'database.dart' esiste prima di tentare di modificarlo.
