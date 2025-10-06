@@ -3,8 +3,10 @@ import 'student_dao_model.dart';
 
 class UpdateStudentDaoModel extends BaseDaoModel {
   static const nameKey = StudentDaoModel.nameKey;
+  static const surnameKey = StudentDaoModel.surnameKey;
+  static const phoneNumberKey = StudentDaoModel.phoneNumberKey;
 
-  String? name;
+  String? name, surname, phoneNumber;
 
-  UpdateStudentDaoModel(this.name);
+  UpdateStudentDaoModel({required this.name, required this.surname, required this.phoneNumber});
 }

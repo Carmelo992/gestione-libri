@@ -7,7 +7,11 @@ import 'update_student_dao_model.dart';
 class StudentDao extends BaseDaoModel {
   static const String tableName = "students";
 
-  static const List<String> tableColumns = ["${StudentDaoModel.nameKey} TEXT NOT NULL"];
+  static const List<String> tableColumns = [
+    "${StudentDaoModel.nameKey} TEXT NOT NULL",
+    "${StudentDaoModel.surnameKey} TEXT NOT NULL",
+    "${StudentDaoModel.phoneNumberKey} TEXT NOT NULL",
+  ];
 
   static const List<String> tableConstraints = ["UNIQUE(${StudentDaoModel.nameKey})"];
 
@@ -49,8 +53,16 @@ extension StudentDaoExt on StudentDao {
     db,
     StudentDao.tableName,
     studentId,
-    [if (student.name != null) UpdateStudentDaoModel.nameKey],
-    [if (student.name != null) student.name],
+    [
+      if (student.name != null) UpdateStudentDaoModel.nameKey,
+      if (student.surname != null) UpdateStudentDaoModel.surnameKey,
+      if (student.phoneNumber != null) UpdateStudentDaoModel.phoneNumberKey,
+    ],
+    [
+      if (student.name != null) student.name,
+      if (student.surname != null) student.surname,
+      if (student.phoneNumber != null) student.phoneNumber,
+    ],
   );
 
   bool deleteStudent(String student) => CrudDao.delete(db, StudentDao.tableName, student);
