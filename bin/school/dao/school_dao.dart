@@ -10,8 +10,10 @@ class SchoolDao extends BaseDaoModel {
 
   static const List<String> tableColumns = [
     "${SchoolDaoModel.nameKey} TEXT NOT NULL",
+    "${SchoolDaoModel.externalIdKey} TEXT NOT NULL",
     "FOREIGN KEY(${SchoolDaoModel.cityIdKey}) REFERENCES ${CityDao.tableName}(${BaseDaoModel.idKey}) ON DELETE CASCADE",
   ];
+  static const List<String> constraints = ["UNIQUE(${SchoolDaoModel.externalIdKey})"];
 
   static void migrate(int newDbVersion) {
     switch (newDbVersion) {
@@ -51,8 +53,16 @@ extension SchoolDaoExt on SchoolDao {
     db,
     SchoolDao.tableName,
     cityId,
-    [if (school.name != null) UpdateSchoolDaoModel.nameKey],
-    [if (school.name != null) school.name],
+    [
+      if (school.name != null) UpdateSchoolDaoModel.nameKey,
+      if (school.externalId != null) UpdateSchoolDaoModel.externalIdKey,
+      if (school.cityId != null) UpdateSchoolDaoModel.cityIdKey,
+    ],
+    [
+      if (school.name != null) school.name,
+      if (school.externalId != null) school.externalId,
+      if (school.cityId != null) school.cityId,
+    ],
   );
 
   bool deleteSchool(String schoolId) => CrudDao.delete(db, SchoolDao.tableName, schoolId);

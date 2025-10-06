@@ -2,9 +2,11 @@ import '../../core/core.dart';
 
 class SchoolDaoModel extends BaseDaoModel {
   static const nameKey = "name";
-  static const cityIdKey = "cityId";
+  static const externalIdKey = "external_id";
+  static const cityIdKey = "city_id";
 
-  String name;
+  String name, externalId;
+  int cityId;
 
-  SchoolDaoModel(this.name);
+  SchoolDaoModel({required this.name, required this.externalId, required this.cityId});
 }

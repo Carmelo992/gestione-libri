@@ -69,8 +69,8 @@ class DatabaseManager {
   static void createDatabaseTable() {
     db.execute(createTable(CityDao.tableName, CityDao.tableColumns));
     db.execute(createTable(UserDao.tableName, UserDao.tableColumns));
-    db.execute(createTable(SchoolDao.tableName, SchoolDao.tableColumns));
-		db.execute(createTable(BookDao.tableName, BookDao.tableColumns));
+    db.execute(createTable(SchoolDao.tableName, SchoolDao.tableColumns, constraints: SchoolDao.constraints));
+    db.execute(createTable(BookDao.tableName, BookDao.tableColumns));
     db.execute(createTable(StudentDao.tableName, StudentDao.tableColumns));
     db.execute(createTable(OrderDao.tableName, OrderDao.tableColumns));
     //NEW_MODULE_CREATE_TABLE_PLACE_HOLDER

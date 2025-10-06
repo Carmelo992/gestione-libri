@@ -4,10 +4,16 @@ import 'school_model.dart';
 
 class UpdateSchoolModel extends BaseAdapterModel<UpdateSchoolDaoModel> {
   static const nameKey = SchoolModel.nameKey;
+  static const externalIdKey = SchoolModel.externalIdKey;
+  static const cityIdKey = SchoolModel.cityIdKey;
 
-  String? name;
+  String? name, externalId;
+  int? cityId;
 
-  UpdateSchoolModel(Map<String, dynamic> data) : name = data[nameKey];
+  UpdateSchoolModel(Map<String, dynamic> data)
+    : name = data[nameKey],
+      externalId = data[externalIdKey],
+      cityId = data[cityIdKey];
 
   static List<String> get requiredFields => [];
 
@@ -16,5 +22,5 @@ class UpdateSchoolModel extends BaseAdapterModel<UpdateSchoolDaoModel> {
   static String? validateField(dynamic value, String key) => SchoolModel.validateField(value, key);
 
   @override
-  UpdateSchoolDaoModel toDao() => UpdateSchoolDaoModel(name);
+  UpdateSchoolDaoModel toDao() => UpdateSchoolDaoModel(name: name, externalId: externalId, cityId: cityId);
 }

@@ -3,10 +3,16 @@ import '../dao/school_dao_model.dart';
 
 class SchoolModel extends BaseAdapterModel<SchoolDaoModel> {
   static const nameKey = "name";
+  static const externalIdKey = "externalId";
+  static const cityIdKey = "cityId";
 
-  String name;
+  String name, externalId;
+  int cityId;
 
-  SchoolModel(Map<String, dynamic> data) : name = data[nameKey];
+  SchoolModel(Map<String, dynamic> data)
+    : name = data[nameKey],
+      externalId = data[externalIdKey],
+      cityId = data[cityIdKey];
 
   static List<String> get requiredFields => [nameKey];
 
@@ -20,5 +26,5 @@ class SchoolModel extends BaseAdapterModel<SchoolDaoModel> {
   }
 
   @override
-  SchoolDaoModel toDao() => SchoolDaoModel(name);
+  SchoolDaoModel toDao() => SchoolDaoModel(name: name, externalId: externalId, cityId: cityId);
 }
