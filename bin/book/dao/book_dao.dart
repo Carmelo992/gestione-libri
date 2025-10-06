@@ -10,7 +10,7 @@ class BookDao extends BaseDaoModel {
   static const List<String> tableColumns = [
     "${BookDaoModel.nameKey} TEXT NOT NULL",
     "${BookDaoModel.bookCodeKey} TEXT NOT NULL",
-    "${BookDaoModel.priceKey} REAL NOT NULL",
+    "${BookDaoModel.priceKey} INTEGER NOT NULL",
   ];
 
   static const List<String> tableConstraints = ["UNIQUE(${BookDaoModel.nameKey})"];

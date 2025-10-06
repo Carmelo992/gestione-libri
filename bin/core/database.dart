@@ -10,6 +10,7 @@ import '../core/core.dart';
 import '../order/order.dart';
 import '../school/school.dart';
 import '../student/student.dart';
+import '../transaction/transaction.dart';
 import '../user/user.dart';
 import '../website/website.dart';
 import '../year/year.dart';
@@ -35,6 +36,7 @@ class DatabaseManager {
   static BooksClassesDao books_classesDao = BooksClassesDao(db);
   static WebsiteDao websiteDao = WebsiteDao(db);
   static YearDao yearDao = YearDao(db);
+  static TransactionDao transactionDao = TransactionDao(db);
   //NEW_MODULE_DAO_PLACE_HOLDER
   //Do not remove the line above
 
@@ -71,6 +73,7 @@ class DatabaseManager {
       BooksClassesDao.migrate(newDbVersion);
       WebsiteDao.migrate(newDbVersion);
       YearDao.migrate(newDbVersion);
+      TransactionDao.migrate(newDbVersion);
       //NEW_MODULE_MIGRATION_PLACE_HOLDER
       //Do not remove the line above
 
@@ -89,6 +92,7 @@ class DatabaseManager {
     db.execute(createTable(BooksClassesDao.tableName, BooksClassesDao.tableColumns));
     db.execute(createTable(WebsiteDao.tableName, WebsiteDao.tableColumns));
     db.execute(createTable(YearDao.tableName, YearDao.tableColumns));
+    db.execute(createTable(TransactionDao.tableName, TransactionDao.tableColumns));
     //NEW_MODULE_CREATE_TABLE_PLACE_HOLDER
     //Do not remove the line above
   }
