@@ -152,7 +152,7 @@ while true; do
 
     # File: dao/${moduleNameLower}_dao.dart
     if $isUnique; then
-        insert_code "CONSTRAINT_PLACE_HOLDER" "\"UNIQUE(\${${moduleNamePascalCase}DaoModel.${fieldNameCamelCase}Key})\"," "$daoFileName"
+        insert_code "CONSTRAINT_PLACE_HOLDER" "    \"UNIQUE(\${${moduleNamePascalCase}DaoModel.${fieldNameCamelCase}Key})\"," "$daoFileName"
     fi
     insert_code "COLUMN_PLACE_HOLDER" "    \"$columnRow\"," "$daoFileName"
     insert_code "COLUMN_NAME_PLACE_HOLDER" "    ${moduleNamePascalCase}DaoModel.${fieldNameCamelCase}Key," "$daoFileName"
