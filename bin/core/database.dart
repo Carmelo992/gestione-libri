@@ -11,6 +11,7 @@ import '../order/order.dart';
 import '../school/school.dart';
 import '../student/student.dart';
 import '../user/user.dart';
+import '../website/website.dart';
 //NEW_MODULE_PATH_PLACE_HOLDER
 //Do not remove the line above
 
@@ -31,6 +32,7 @@ class DatabaseManager {
   static OrderDao orderDao = OrderDao(db);
   static ClassDao classDao = ClassDao(db);
   static BooksClassesDao books_classesDao = BooksClassesDao(db);
+  static WebsiteDao websiteDao = WebsiteDao(db);
   //NEW_MODULE_DAO_PLACE_HOLDER
   //Do not remove the line above
 
@@ -65,6 +67,7 @@ class DatabaseManager {
       OrderDao.migrate(newDbVersion);
       ClassDao.migrate(newDbVersion);
       BooksClassesDao.migrate(newDbVersion);
+      WebsiteDao.migrate(newDbVersion);
       //NEW_MODULE_MIGRATION_PLACE_HOLDER
       //Do not remove the line above
 
@@ -81,6 +84,7 @@ class DatabaseManager {
     db.execute(createTable(OrderDao.tableName, OrderDao.tableColumns));
     db.execute(createTable(ClassDao.tableName, ClassDao.tableColumns));
     db.execute(createTable(BooksClassesDao.tableName, BooksClassesDao.tableColumns));
+    db.execute(createTable(WebsiteDao.tableName, WebsiteDao.tableColumns));
     //NEW_MODULE_CREATE_TABLE_PLACE_HOLDER
     //Do not remove the line above
   }
