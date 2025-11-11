@@ -11,6 +11,7 @@ class SchoolDao extends BaseDaoModel {
   static const List<String> tableColumns = [
     "${SchoolDaoModel.nameKey} TEXT NOT NULL",
     "${SchoolDaoModel.externalIdKey} TEXT NOT NULL",
+    "${SchoolDaoModel.cityIdKey} TEXT",
     "FOREIGN KEY(${SchoolDaoModel.cityIdKey}) REFERENCES ${CityDao.tableName}(${BaseDaoModel.idKey}) ON DELETE CASCADE",
   ];
   static const List<String> constraints = ["UNIQUE(${SchoolDaoModel.externalIdKey})"];

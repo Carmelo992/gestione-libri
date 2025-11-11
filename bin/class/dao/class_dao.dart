@@ -17,6 +17,7 @@ class ClassDao extends BaseDaoModel {
 
   static const List<String> tableConstraints = [
     "UNIQUE(${ClassDaoModel.nameKey})",
+    "${ClassDaoModel.schoolIdKey} TEXT",
     "FOREIGN KEY(${ClassDaoModel.schoolIdKey}) REFERENCES ${SchoolDao.tableName}(${BaseDaoModel.idKey}) ON DELETE CASCADE",
     //CONSTRAINT_PLACE_HOLDER
     //Do not remove the line above

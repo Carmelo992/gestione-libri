@@ -22,6 +22,8 @@ class BooksClassesDao extends BaseDaoModel {
 
   static const List<String> tableConstraints = [
     "UNIQUE(${BooksClassesDaoModel.nameKey})",
+    "${BooksClassesDaoModel.classIdKey} TEXT",
+    "${BooksClassesDaoModel.bookIdKey} TEXT",
     "FOREIGN KEY(${BooksClassesDaoModel.classIdKey}) REFERENCES ${ClassDao.tableName}(${BaseDaoModel.idKey}) ON DELETE CASCADE",
     "FOREIGN KEY(${BooksClassesDaoModel.bookIdKey}) REFERENCES ${BookDao.tableName}(${BaseDaoModel.idKey}) ON DELETE CASCADE",
     //CONSTRAINT_PLACE_HOLDER
