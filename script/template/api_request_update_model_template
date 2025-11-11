@@ -2,8 +2,8 @@ import '../../core/core.dart';
 import '../dao/update_MODULE_dao_model.dart';
 import 'MODULE_model.dart';
 
-class UpdateMODULE_CAMELModel extends BaseAdapterModel<UpdateMODULE_CAMELDaoModel> {
-  static const nameKey = MODULE_CAMELModel.nameKey;
+class UpdateMODULE_PASCALModel extends BaseAdapterModel<UpdateMODULE_PASCALDaoModel> {
+  static const nameKey = MODULE_PASCALModel.nameKey;
   //KEY_PLACE_HOLDER
   //Do not remove the line above
 
@@ -11,7 +11,7 @@ class UpdateMODULE_CAMELModel extends BaseAdapterModel<UpdateMODULE_CAMELDaoMode
   //FIELD_PLACE_HOLDER
   //Do not remove the line above
 
-  UpdateMODULE_CAMELModel(Map<String, dynamic> data, [String? MODULEId]) :
+  UpdateMODULE_PASCALModel(Map<String, dynamic> data, [String? MODULE_CAMELId]) :
     name = data[nameKey],
     //CONSTRUCTOR_PLACE_HOLDER
     //Do not remove the line above
@@ -19,12 +19,12 @@ class UpdateMODULE_CAMELModel extends BaseAdapterModel<UpdateMODULE_CAMELDaoMode
 
   static List<String> get requiredFields => [];
 
-  static Map<String, Type> get fieldTypes => MODULE_CAMELModel.fieldTypes;
+  static Map<String, Type> get fieldTypes => MODULE_PASCALModel.fieldTypes;
 
-  static String? validateField(dynamic value, String key) => MODULE_CAMELModel.validateField(value, key);
+  static String? validateField(dynamic value, String key) => MODULE_PASCALModel.validateField(value, key);
 
   @override
-  UpdateMODULE_CAMELDaoModel toDao() => UpdateMODULE_CAMELDaoModel(
+  UpdateMODULE_PASCALDaoModel toDao() => UpdateMODULE_PASCALDaoModel(
     name: name,
     //TO_DAO_PLACE_HOLDER
     //Do not remove the line above

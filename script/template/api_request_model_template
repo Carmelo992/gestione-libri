@@ -1,7 +1,7 @@
 import '../../core/core.dart';
 import '../dao/MODULE_dao_model.dart';
 
-class MODULE_CAMELModel extends BaseAdapterModel<MODULE_CAMELDaoModel> {
+class MODULE_PASCALModel extends BaseAdapterModel<MODULE_PASCALDaoModel> {
   static const nameKey = "name";
   //KEY_PLACE_HOLDER
   //Do not remove the line above
@@ -10,7 +10,7 @@ class MODULE_CAMELModel extends BaseAdapterModel<MODULE_CAMELDaoModel> {
   //FIELD_PLACE_HOLDER
   //Do not remove the line above
 
-  MODULE_CAMELModel(Map<String, dynamic> data, [String? MODULEId]) :
+  MODULE_PASCALModel(Map<String, dynamic> data, [String? MODULE_CAMELId]) :
     name = data[nameKey],
     //CONSTRUCTOR_PLACE_HOLDER
     //Do not remove the line above
@@ -37,7 +37,7 @@ class MODULE_CAMELModel extends BaseAdapterModel<MODULE_CAMELDaoModel> {
   }
 
   @override
-  MODULE_CAMELDaoModel toDao() => MODULE_CAMELDaoModel(
+  MODULE_PASCALDaoModel toDao() => MODULE_PASCALDaoModel(
     name: name,
     //TO_DAO_PLACE_HOLDER
     //Do not remove the line above

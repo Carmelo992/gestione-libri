@@ -1,8 +1,8 @@
 import '../../core/core.dart';
 import 'MODULE_dao_model.dart';
 
-class UpdateMODULE_CAMELDaoModel extends BaseDaoModel {
-  static const nameKey = MODULE_CAMELDaoModel.nameKey;
+class UpdateMODULE_PASCALDaoModel extends BaseDaoModel {
+  static const nameKey = MODULE_PASCALDaoModel.nameKey;
   //KEY_PLACE_HOLDER
   //Do not remove the line above
 
@@ -10,7 +10,7 @@ class UpdateMODULE_CAMELDaoModel extends BaseDaoModel {
   //FIELD_PLACE_HOLDER
   //Do not remove the line above
 
-  UpdateMODULE_CAMELDaoModel({
+  UpdateMODULE_PASCALDaoModel({
     required this.name,
     //CONSTRUCTOR_PLACE_HOLDER
     //Do not remove the line above

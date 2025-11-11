@@ -11,11 +11,11 @@ import "../../dao/MODULE_dao.dart";
 
 part 'TARGET_MODULE_adapter.g.dart';
 
-class TARGET_CAMELMODULE_CAMELAdapter {
-  TARGET_CAMELMODULE_CAMELAdapter();
+class TARGET_CAMELMODULE_PASCALAdapter {
+  TARGET_CAMELMODULE_PASCALAdapter();
 
   @Route.get("/")
-  Response _getAllMODULE_CAMELs(Request request) {
+  Response _getAllMODULE_PASCALs(Request request) {
     var queryParameters = request.url.queryParameters;
 
     bool withPagination =
@@ -32,32 +32,32 @@ class TARGET_CAMELMODULE_CAMELAdapter {
 
     return switch (validationError) {
       null => CustomResponse.ok(
-        DatabaseManager.MODULEDao.getMODULE_CAMELs(pagination: withPagination ? PaginationModel(queryParameters).toDao() : null),
+        DatabaseManager.MODULE_CAMELDao.getMODULE_PASCALs(pagination: withPagination ? PaginationModel(queryParameters).toDao() : null),
       ),
       _ => CustomResponse.badRequest(body: validationError.bodyJson),
     };
   }
 
   @Route.put("/")
-  Future<Response> _insertMODULE_CAMEL(Request request) async {
+  Future<Response> _insertMODULE_PASCAL(Request request) async {
     String query = await request.readAsString();
     Map<String, dynamic> queryDecoded = jsonDecode(query);
 
     var validationError = ValidationModelsManager.validate(
       queryDecoded,
-      MODULE_CAMELModel.requiredFields,
-      MODULE_CAMELModel.fieldTypes,
-      MODULE_CAMELModel.validateField,
+      MODULE_PASCALModel.requiredFields,
+      MODULE_PASCALModel.fieldTypes,
+      MODULE_PASCALModel.validateField,
     );
     return switch (validationError) {
-      null => CustomResponse.ok(DatabaseManager.MODULEDao.insertMODULE_CAMEL(MODULE_CAMELModel(queryDecoded).toDao())),
+      null => CustomResponse.ok(DatabaseManager.MODULE_CAMELDao.insertMODULE_PASCAL(MODULE_PASCALModel(queryDecoded).toDao())),
       _ => CustomResponse.badRequest(body: validationError.bodyJson),
     };
   }
 
-  @Route.get("/<MODULEId|[0-9]+>")
-  Response _getMODULE_CAMEL(Request request, String MODULEId) {
-    var resource = DatabaseManager.MODULEDao.getMODULE_CAMEL(MODULEId);
+  @Route.get("/<MODULE_CAMELId|[0-9]+>")
+  Response _getMODULE_PASCAL(Request request, String MODULE_CAMELId) {
+    var resource = DatabaseManager.MODULE_CAMELDao.getMODULE_PASCAL(MODULE_CAMELId);
     if (resource != null) {
       return CustomResponse.ok(resource);
     } else {
@@ -65,8 +65,8 @@ class TARGET_CAMELMODULE_CAMELAdapter {
     }
   }
 
-  @Route.put("/<MODULEId|[0-9]+>")
-  Future<Response> _editMODULE_CAMEL(Request request, String MODULEId) async {
+  @Route.put("/<MODULE_CAMELId|[0-9]+>")
+  Future<Response> _editMODULE_PASCAL(Request request, String MODULE_CAMELId) async {
     String query = await request.readAsString();
     Map<String, dynamic> queryDecoded = jsonDecode(query);
     if (queryDecoded.isEmpty) {
@@ -76,14 +76,14 @@ class TARGET_CAMELMODULE_CAMELAdapter {
 
     var validationError = ValidationModelsManager.validate(
       queryDecoded,
-      UpdateMODULE_CAMELModel.requiredFields,
-      UpdateMODULE_CAMELModel.fieldTypes,
-      UpdateMODULE_CAMELModel.validateField,
+      UpdateMODULE_PASCALModel.requiredFields,
+      UpdateMODULE_PASCALModel.fieldTypes,
+      UpdateMODULE_PASCALModel.validateField,
     );
     return switch (validationError) {
       null => () {
-        var model = UpdateMODULE_CAMELModel(queryDecoded).toDao();
-        var updatedClient = DatabaseManager.MODULEDao.updateMODULE_CAMEL(model, MODULEId);
+        var model = UpdateMODULE_PASCALModel(queryDecoded).toDao();
+        var updatedClient = DatabaseManager.MODULE_CAMELDao.updateMODULE_PASCAL(model, MODULE_CAMELId);
         if (updatedClient == null) {
           return CustomResponse.notFound();
         }
@@ -93,12 +93,12 @@ class TARGET_CAMELMODULE_CAMELAdapter {
     };
   }
 
-  @Route.delete("/<MODULEId|[0-9]+>")
-  Future<Response> _deleteMODULE_CAMEL(Request request, String MODULEId) async {
-    if (MODULEId.isEmpty) {
+  @Route.delete("/<MODULE_CAMELId|[0-9]+>")
+  Future<Response> _deleteMODULE_PASCAL(Request request, String MODULE_CAMELId) async {
+    if (MODULE_CAMELId.isEmpty) {
       return CustomResponse.badRequest(body: {StringsManager.error(): StringsManager.invalidId});
     }
-    bool success = DatabaseManager.MODULEDao.deleteMODULE_CAMEL(MODULEId);
+    bool success = DatabaseManager.MODULE_CAMELDao.deleteMODULE_PASCAL(MODULE_CAMELId);
     if (success) {
       return CustomResponse.ok(null);
     }
@@ -108,5 +108,5 @@ class TARGET_CAMELMODULE_CAMELAdapter {
   @Route.all("/<ignored|.*>")
   Response notFound(Request request) => CustomResponse.notFound();
 
-  Router get router => _$TARGET_CAMELMODULE_CAMELAdapterRouter(this);
+  Router get router => _$TARGET_CAMELMODULE_PASCALAdapterRouter(this);
 }

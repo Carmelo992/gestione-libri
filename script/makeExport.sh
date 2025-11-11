@@ -3,24 +3,11 @@
 # Interrompe immediatamente lo script se un comando fallisce.
 set -e
 
+source "$(dirname "$0")/utils.sh"
+
 # ==============================================================================
 # Funzioni di Utilità
 # ==============================================================================
-
-# Funzione per convertire una stringa in PascalCase (es. nome_modulo -> NomeModulo)
-# Argomento 1: La stringa da convertire
-to_pascal_case() {
-    # Converte l'intera stringa in minuscolo
-    local lower_case
-    lower_case=$(echo "$1" | tr '[:upper:]' '[:lower:]')
-
-    # Rende maiuscola la prima lettera
-    local first_char
-    first_char=$(echo "${lower_case:0:1}" | tr '[:lower:]' '[:upper:]')
-
-    # Concatena la prima lettera maiuscola con il resto della stringa
-    echo "$first_char${lower_case:1}"
-}
 
 # ==============================================================================
 # Validazione degli Input

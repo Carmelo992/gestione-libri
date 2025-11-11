@@ -3,21 +3,7 @@
 # Interrompe immediatamente lo script se un comando fallisce.
 set -e
 
-# ==============================================================================
-# Funzioni di Utilità
-# ==============================================================================
-
-# Funzione per convertire una stringa in PascalCase (es. nome_modulo -> NomeModulo)
-# Argomento 1: La stringa da convertire
-to_pascal_case() {
-    local lower_case
-    lower_case=$(echo "$1" | tr '[:upper:]' '[:lower:]')
-
-    local first_char
-    first_char=$(echo "${lower_case:0:1}" | tr '[:lower:]' '[:upper:]')
-
-    echo "$first_char${lower_case:1}"
-}
+source "$(dirname "$0")/utils.sh"
 
 # ==============================================================================
 # Validazione degli Input
@@ -54,6 +40,7 @@ fi
 module_name_raw="$1"
 module_name_lower=$(echo "$module_name_raw" | tr '[:upper:]' '[:lower:]')
 module_name_pascal=$(to_pascal_case "$module_name_raw")
+module_name_camel=$(to_camel_case "$module_name_raw")
 
 # -- Variabili di percorso --
 output_dir="api_request_models"
@@ -76,13 +63,15 @@ cp "$TEMPLATE_UPDATE_PATH" "$update_model_file"
 echo "Sostituzione dei placeholder per il file di creazione..."
 # Combina tutte le sostituzioni in un unico comando 'sed' per efficienza
 sed -i '' \
-    -e "s@MODULE_CAMEL@$module_name_pascal@g" \
+    -e "s@MODULE_PASCAL@$module_name_pascal@g" \
+    -e "s@MODULE_CAMEL@$module_name_camel@g" \
     -e "s@MODULE@$module_name_lower@g" \
     "$create_model_file"
 
 echo "Sostituzione dei placeholder per il file di aggiornamento..."
 sed -i '' \
-    -e "s@MODULE_CAMEL@$module_name_pascal@g" \
+    -e "s@MODULE_PASCAL@$module_name_pascal@g" \
+    -e "s@MODULE_CAMEL@$module_name_camel@g" \
     -e "s@MODULE@$module_name_lower@g" \
     "$update_model_file"
 

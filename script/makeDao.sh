@@ -3,21 +3,11 @@
 # Interrompe immediatamente lo script se un comando fallisce.
 set -e
 
+source "$(dirname "$0")/utils.sh"
+
 # ==============================================================================
 # Funzioni di Utilità
 # ==============================================================================
-
-# Funzione per convertire una stringa in PascalCase (es. nome_modulo -> NomeModulo)
-# Argomento 1: La stringa da convertire
-to_pascal_case() {
-    local lower_case
-    lower_case=$(echo "$1" | tr '[:upper:]' '[:lower:]')
-
-    local first_char
-    first_char=$(echo "${lower_case:0:1}" | tr '[:lower:]' '[:upper:]')
-
-    echo "$first_char${lower_case:1}"
-}
 
 # Funzione per processare un singolo file: copia e sostituzione
 # Argomenti: 1=Percorso Template, 2=Percorso File di Output
@@ -30,7 +20,8 @@ process_template() {
 
     echo "Sostituzione dei placeholder in: $(basename "$output_file")"
     sed -i '' \
-        -e "s@MODULE_CAMEL@$module_name_pascal@g" \
+        -e "s@MODULE_PASCAL@$module_name_pascal@g" \
+        -e "s@MODULE_CAMEL@$module_name_camel@g" \
         -e "s@MODULE@$module_name_lower@g" \
         "$output_file"
 }
@@ -67,6 +58,7 @@ fi
 # -- Variabili per il Modulo --
 module_name_raw="$1"
 module_name_lower=$(echo "$module_name_raw" | tr '[:upper:]' '[:lower:]')
+module_name_camel=$(to_camel_case "$module_name_raw")
 module_name_pascal=$(to_pascal_case "$module_name_raw")
 
 # -- Variabili di percorso --

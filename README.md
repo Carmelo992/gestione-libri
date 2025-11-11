@@ -24,8 +24,22 @@ $ docker run -it -p 8080:8080 myserver
 Server listening on port 8080
 ```
 
-# TODO
+# TODO for script
 
 - Add foreign key constraints
-- Handle module with `_` in the name
+- Handle module with `_` in the name ✅
 - Add support for BOOLEAN SQL type
+
+# TODO for project
+
+- Create city module ✅
+- Create school module ✅
+- Create class module ✅
+- Create book module ✅
+- Create book - class relationship ✅
+- Create order module ✅
+- Create order - book relationship
+- Create year module ✅
+- Create site module ✅
+- Create student module ✅
+- Create transaction module ✅

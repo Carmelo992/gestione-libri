@@ -6,19 +6,7 @@ set -eu
 cd ../core
 ls
 
-# ==============================================================================
-# Funzioni di Utilità
-# ==============================================================================
-
-# Funzione per convertire una stringa in PascalCase (es. nome_modulo -> NomeModulo)
-to_pascal_case() {
-    local lower_case
-    lower_case=$(echo "$1" | tr '[:upper:]' '[:lower:]')
-    local first_char
-    first_char=$(echo "${lower_case:0:1}" | tr '[:lower:]' '[:upper:]')
-    echo "$first_char${lower_case:1}"
-}
-
+source "$(dirname "$0")/utils.sh"
 # ==============================================================================
 # Validazione degli Input
 # ==============================================================================
@@ -56,12 +44,13 @@ fi
 
 module_name_lower=$(echo "$MODULE_NAME" | tr '[:upper:]' '[:lower:]')
 module_name_pascal=$(to_pascal_case "$MODULE_NAME")
+module_name_camel=$(to_camel_case "$MODULE_NAME")
 
 # -- Stringhe da inserire --
 # Preparo tutte le linee di codice da inserire in anticipo per chiarezza.
 # NOTA: La backslash in '..\/$moduleNameLower' deve essere escapata per sed.
 import_line="import '..\/${module_name_lower}\/${module_name_lower}.dart';"
-dao_line=$'\t'"static ${module_name_pascal}Dao ${module_name_lower}Dao = ${module_name_pascal}Dao(db);"
+dao_line=$'\t'"static ${module_name_pascal}Dao ${module_name_camel}Dao = ${module_name_pascal}Dao(db);"
 migration_line=$'\t\t\t'"${module_name_pascal}Dao.migrate(newDbVersion);"
 create_table_line=$'\t\t'"db.execute(createTable(${module_name_pascal}Dao.tableName, ${module_name_pascal}Dao.tableColumns));"
 
