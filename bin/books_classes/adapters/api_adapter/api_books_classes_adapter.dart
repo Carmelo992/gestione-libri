@@ -32,7 +32,7 @@ class ApiBooksClassesAdapter {
 
     return switch (validationError) {
       null => CustomResponse.ok(
-        DatabaseManager.books_classesDao.getBooks_classess(
+        DatabaseManager.booksClassesDao.getBooks_classess(
           pagination: withPagination ? PaginationModel(queryParameters).toDao() : null,
         ),
       ),
@@ -53,7 +53,7 @@ class ApiBooksClassesAdapter {
     );
     return switch (validationError) {
       null => CustomResponse.ok(
-        DatabaseManager.books_classesDao.insertBooks_classes(BooksClassesModel(queryDecoded).toDao()),
+        DatabaseManager.booksClassesDao.insertBooks_classes(BooksClassesModel(queryDecoded).toDao()),
       ),
       _ => CustomResponse.badRequest(body: validationError.bodyJson),
     };
@@ -61,7 +61,7 @@ class ApiBooksClassesAdapter {
 
   @Route.get("/<booksClassesId|[0-9]+>")
   Response _getBooksClasses(Request request, String booksClassesId) {
-    var resource = DatabaseManager.books_classesDao.getBooksClasses(booksClassesId);
+    var resource = DatabaseManager.booksClassesDao.getBooksClasses(booksClassesId);
     if (resource != null) {
       return CustomResponse.ok(resource);
     } else {
@@ -87,7 +87,7 @@ class ApiBooksClassesAdapter {
     return switch (validationError) {
       null => () {
         var model = UpdateBooksClassesModel(queryDecoded).toDao();
-        var updatedClient = DatabaseManager.books_classesDao.updateBooksClasses(model, booksClassesId);
+        var updatedClient = DatabaseManager.booksClassesDao.updateBooksClasses(model, booksClassesId);
         if (updatedClient == null) {
           return CustomResponse.notFound();
         }
@@ -102,7 +102,7 @@ class ApiBooksClassesAdapter {
     if (booksClassesId.isEmpty) {
       return CustomResponse.badRequest(body: {StringsManager.error(): StringsManager.invalidId});
     }
-    bool success = DatabaseManager.books_classesDao.deleteBooksClasses(booksClassesId);
+    bool success = DatabaseManager.booksClassesDao.deleteBooksClasses(booksClassesId);
     if (success) {
       return CustomResponse.ok(null);
     }

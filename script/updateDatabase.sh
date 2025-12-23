@@ -3,8 +3,6 @@
 # Interrompe immediatamente lo script se un comando fallisce o se si usa
 # una variabile non definita.
 set -eu
-cd ../core
-ls
 
 source "$(dirname "$0")/utils.sh"
 # ==============================================================================

@@ -14,6 +14,7 @@ import '../transaction/transaction.dart';
 import '../user/user.dart';
 import '../website/website.dart';
 import '../year/year.dart';
+
 //NEW_MODULE_PATH_PLACE_HOLDER
 //Do not remove the line above
 
@@ -29,14 +30,15 @@ class DatabaseManager {
   static UserDao userDao = UserDao(db);
   static SchoolDao schoolDao = SchoolDao(db);
 
-	static BookDao bookDao = BookDao(db);
+  static BookDao bookDao = BookDao(db);
   static StudentDao studentDao = StudentDao(db);
   static OrderDao orderDao = OrderDao(db);
   static ClassDao classDao = ClassDao(db);
-  static BooksClassesDao books_classesDao = BooksClassesDao(db);
+  static BooksClassesDao booksClassesDao = BooksClassesDao(db);
   static WebsiteDao websiteDao = WebsiteDao(db);
   static YearDao yearDao = YearDao(db);
   static TransactionDao transactionDao = TransactionDao(db);
+
   //NEW_MODULE_DAO_PLACE_HOLDER
   //Do not remove the line above
 
@@ -66,7 +68,7 @@ class DatabaseManager {
       CityDao.migrate(newDbVersion);
       UserDao.migrate(newDbVersion);
       SchoolDao.migrate(newDbVersion);
-			BookDao.migrate(newDbVersion);
+      BookDao.migrate(newDbVersion);
       StudentDao.migrate(newDbVersion);
       OrderDao.migrate(newDbVersion);
       ClassDao.migrate(newDbVersion);

@@ -37,6 +37,7 @@ fi
 # Conversione dei nomi
 moduleNameLower=$(echo "$1" | tr '[:upper:]' '[:lower:]')
 moduleNamePascalCase=$(to_pascal_case "$moduleNameLower")
+moduleNameCamelCase=$(to_camel_case "$moduleNameLower")
 
 # Definizione dei nomi dei file
 daoFileName="dao/${moduleNameLower}_dao.dart"
@@ -76,11 +77,11 @@ while true; do
 
     fieldNameCamelCase=$(to_camel_case "$fieldName")
 
-    read -r -p "Inserisci il tipo SQL (TEXT, INTEGER, TIMESTAMP): " fieldType
+    read -r -p "Inserisci il tipo SQL (TEXT, INTEGER, TIMESTAMP, BOOLEAN): " fieldType
     # Converte in maiuscolo per rendere il controllo case-insensitive
     fieldTypeUpper=$(echo "$fieldType" | tr '[:lower:]' '[:upper:]')
     case "$fieldTypeUpper" in
-        "TEXT"|"INTEGER"|"TIMESTAMP")
+        "TEXT"|"INTEGER"|"TIMESTAMP"|"BOOLEAN")
             # Tipo valido, continua
             ;;
         *)
@@ -98,7 +99,16 @@ while true; do
     defaultValue=""
     if confirm "Ha un valore di default?"; then
         hasDefault=true
-        read -r -p "Inserisci il valore di default: " defaultValue
+        if [[  "$fieldTypeUpper" == "BOOLEAN" ]]; then
+          if confirm "Il valore di default deve essere 'true'?";
+          then
+            defaultValue="1"
+          else
+            defaultValue="0"
+          fi
+        else
+          read -r -p "Inserisci il valore di default: " defaultValue
+        fi
     fi
 
     isUnique=false
@@ -131,6 +141,7 @@ while true; do
         "TEXT") dartFieldType="String" ;;
         "INTEGER") dartFieldType="int" ;;
         "TIMESTAMP") dartFieldType="DateTime" ;;
+        "BOOLEAN") dartFieldType="bool" ;;
     esac
 
 
@@ -142,9 +153,9 @@ while true; do
     fi
     insert_code "COLUMN_PLACE_HOLDER" "    \"$columnRow\"," "$daoFileName"
     insert_code "COLUMN_NAME_PLACE_HOLDER" "    ${moduleNamePascalCase}DaoModel.${fieldNameCamelCase}Key," "$daoFileName"
-    insert_code "COLUMN_VALUE_PLACE_HOLDER" "    ${moduleNameLower}.${fieldNameCamelCase}," "$daoFileName"
-    insert_code "COLUMN_UPDATE_PLACE_HOLDER" "        if (${moduleNameLower}.${fieldNameCamelCase} != null) Update${moduleNamePascalCase}DaoModel.${fieldNameCamelCase}Key," "$daoFileName"
-    insert_code "COLUMN_UPDATE_VALUE_PLACE_HOLDER" "        if (${moduleNameLower}.${fieldNameCamelCase} != null) ${moduleNameLower}.${fieldNameCamelCase}," "$daoFileName"
+    insert_code "COLUMN_VALUE_PLACE_HOLDER" "    ${moduleNameCamelCase}.${fieldNameCamelCase}," "$daoFileName"
+    insert_code "COLUMN_UPDATE_PLACE_HOLDER" "        if (${moduleNameCamelCase}.${fieldNameCamelCase} != null) Update${moduleNamePascalCase}DaoModel.${fieldNameCamelCase}Key," "$daoFileName"
+    insert_code "COLUMN_UPDATE_VALUE_PLACE_HOLDER" "        if (${moduleNameCamelCase}.${fieldNameCamelCase} != null) ${moduleNameCamelCase}.${fieldNameCamelCase}," "$daoFileName"
 
     # File: dao/${moduleNameLower}_dao_model.dart
     insert_code "KEY_PLACE_HOLDER" "  static const String ${fieldNameCamelCase}Key = \"${fieldName}\";" "$modelDaoFileName"

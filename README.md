@@ -28,7 +28,7 @@ Server listening on port 8080
 
 - Add foreign key constraints
 - Handle module with `_` in the name ✅
-- Add support for BOOLEAN SQL type
+- Add support for BOOLEAN SQL type ✅
 
 # TODO for project
 
