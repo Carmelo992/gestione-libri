@@ -1,7 +1,7 @@
 abstract class BaseDaoModel {
   static const idKey = "id";
-  static const createdAtKey = "createdAt";
-  static const updatedAtKey = "updatedAt";
+  static const createdAtKey = "created_at";
+  static const updatedAtKey = "updated_at";
 
   static const List<String> tableColumns = [
     "$idKey INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL",

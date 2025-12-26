@@ -38,7 +38,7 @@ class WebYearAdapter {
     };
   }
 
-  @Route.put("/")
+  @Route.post("/")
   Future<Response> _insertYear(Request request) async {
     String query = await request.readAsString();
     Map<String, dynamic> queryDecoded = jsonDecode(query);

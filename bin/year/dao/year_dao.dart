@@ -46,7 +46,7 @@ class YearDao extends BaseDaoModel {
 
 extension YearDaoExt on YearDao {
   List<Row> getYears({PaginationDaoModel? pagination}) =>
-      CrudDao.getAll(db, YearDao.tableName, pagination: pagination, orderByField: [YearDaoModel.nameKey]);
+      CrudDao.getAll(db, YearDao.tableName, pagination: pagination, orderByField: [YearDaoModel.nameKey], isDesc: true);
 
   Row insertYear(YearDaoModel year) => CrudDao.insert(
     db,

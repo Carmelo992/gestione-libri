@@ -13,6 +13,7 @@ import '../api_request_models/auth_model.dart';
 import '../api_request_models/change_password_model.dart';
 import '../api_request_models/reset_code_model.dart';
 import '../api_request_models/reset_password_model.dart';
+import '../api_response_model/login_response_model.dart';
 
 part 'auth_adapter.g.dart';
 
@@ -62,11 +63,11 @@ class AuthAdapter {
             return CustomResponse.unauthorized();
           }
           return CustomResponse.ok(
-            {
+            LoginResponseModel.fromDao({
               ...resource,
               JwtManager.tokenKey: JwtManager.createAccessToken(userId, resource[UserModel.isAdminKey] == 1),
               JwtManager.refreshTokenKey: JwtManager.createRefreshToken(userId, resource[UserModel.isAdminKey] == 1),
-            }..remove(AuthModel.passwordKey),
+            }).toMap(),
           );
         } else {
           Logger.info(queryDecoded);
